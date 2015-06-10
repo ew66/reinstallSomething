@@ -72,16 +72,28 @@ parser.add_argument('something_name_list', default='', nargs='*', help='ex: Came
 group.add_argument('-i', help='install something', action='store_const', const=1)
 group.add_argument('-r', help='remove something', action='store_const', const=2)
 group.add_argument('-p', help='pull something', action='store_const', const=3)
+group.add_argument('-I', help='overly path in env $OUT_OVERLAY', action='store_const', const=4)
 
 args = parser.parse_args()
-
+use_overlay = False;
+if args.I != None:
+    use_overlay = True;
+    
 something_name_list = args.something_name_list
 
 #print args.something_name_list
-
+#exit();
 serial = getDevices()
 # get $OUT path
 env_out_path = os.environ.copy()["OUT"]
+if use_overlay == True:
+    try:
+        overlay_path = os.environ.copy()["OUT_OVERLAY"]
+        if overlay_path:
+            env_out_path = overlay_path
+    except:
+        pass
+
 # search path=$OUT/system
 something_root_path = env_out_path + '/system'
 
@@ -102,7 +114,7 @@ for something_name in something_name_list:
        something_dest_path = something.replace(env_out_path,'')
        
        # push something
-       if args.i != None:
+       if args.i != None or args.I != None:
        	pushSomething(serial, something, something_dest_path)
     
     # pull something
