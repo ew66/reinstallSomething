@@ -4,6 +4,8 @@
 #                             [something_name_list [something_name_list ...]]
 #
 # Reinstall Something in your $OUT/system
+#       Linux / Mac OS X: export $OUT into env
+#       Windows         : create a file with absolute OUT path under "C:\Users\[Username]\OUT_PATH"
 #
 # positional arguments:
 #   something_name_list  ex: Camera2.apk, library_name.so
